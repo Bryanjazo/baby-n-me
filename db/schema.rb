@@ -10,15 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_02_053924) do
+ActiveRecord::Schema.define(version: 2021_12_02_062401) do
 
-  create_table "api_v1_channels", force: :cascade do |t|
+  create_table "api_v1_conversations", force: :cascade do |t|
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "api_v1_messages", force: :cascade do |t|
-    t.integer "user_id"
+    t.integer "conversation_id"
+    t.integer "sender_id"
     t.text "body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
