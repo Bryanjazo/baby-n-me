@@ -12,7 +12,7 @@ class Api::V1::MessagesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create api_v1_message" do
     assert_difference('Api::V1::Message.count') do
-      post api_v1_messages_url, params: { api_v1_message: {  } }, as: :json
+      post api_v1_messages_url, params: { api_v1_message: { chat_room_id: @api_v1_message.chat_room_id, content: @api_v1_message.content, integer: @api_v1_message.integer } }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class Api::V1::MessagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update api_v1_message" do
-    patch api_v1_message_url(@api_v1_message), params: { api_v1_message: {  } }, as: :json
+    patch api_v1_message_url(@api_v1_message), params: { api_v1_message: { chat_room_id: @api_v1_message.chat_room_id, content: @api_v1_message.content, integer: @api_v1_message.integer } }, as: :json
     assert_response 200
   end
 

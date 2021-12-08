@@ -1,51 +1,21 @@
 class Api::V1::MessagesController < ApplicationController
-  before_action :set_api_v1_message, only: [:show, :update, :destroy]
-
-  # GET /api/v1/messages
-  def index
-    @api_v1_messages = Api::V1::Message.all
-
-    render json: @api_v1_messages
-  end
-
-  # GET /api/v1/messages/1
-  def show
-    render json: @api_v1_message
-  end
-
-  # POST /api/v1/messages
   def create
-    @api_v1_message = Api::V1::Message.new(api_v1_message_params)
+    message = Api::V1::Message.new(message_params)
     
-    if @api_v1_message.save
-      render json: @api_v1_message, status: :created, location: @api_v1_message
+
+    
+    
+    if message.save
+       chat_room = Api::V1::ChatRoom.find(message.chat_room_id)
+       
+       ChatRoomChannel.broadcast_to(chat_room, message)
+       # render json: message
     else
-      render json: @api_v1_message.errors, status: :unprocessable_entity
+       render json: {errors: message.errors.full_messages}, status: 422
     end
-  end
-
-  # PATCH/PUT /api/v1/messages/1
-  def update
-    if @api_v1_message.update(api_v1_message_params)
-      render json: @api_v1_message
-    else
-      render json: @api_v1_message.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /api/v1/messages/1
-  def destroy
-    @api_v1_message.destroy
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_api_v1_message
-      @api_v1_message = Api::V1::Message.find(params[:id])
-    end
-
-    # Only allow a list of trusted parameters through.
-    def api_v1_message_params
-      params.fetch(:api_v1_message, {})
-    end
+end
+private
+def message_params
+     params.require(:message).permit(:content, :chat_room_id, :sender_id, :username)
+end
 end

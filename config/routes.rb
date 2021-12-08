@@ -1,17 +1,17 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :conversations
-    end
-  end
-  namespace :api do
-    namespace :v1 do
-      resources :channels
+      resources :chat_rooms
     end
   end
   namespace :api do
     namespace :v1 do
       resources :messages
+    end
+  end
+  namespace :api do
+    namespace :v1 do
+      resources :channels
     end
   end
   namespace :api do
